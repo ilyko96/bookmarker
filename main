@@ -1,0 +1,22 @@
+javascript: (function() {
+ var w = window,
+  ws = w.getSelection,
+  d = document,
+  ds = d.getSelection,
+  r = [],
+  i = 0,
+  n, s = '' + (ws ? ws() : (ds ? ds() : d.selection.createRange().text));
+ for (; i < s.length; i++) {
+  n = s.charCodeAt(i);
+  n = n == 0x401 ? 0xA8 : (n == 0x451 ? 0xB8 : (n >= 0x410 && n <= 0x44F ? n - 0x350 : n));
+  if (n <= 0xFF) r.push(n);
+ }
+ s = escape(String.fromCharCode.apply(null, r));
+ s = (s ? 'd=' + s : 't=l&l=' + location);
+ s = s.replace(/\+/g, encodeURIComponent('+'));
+ if (s) {
+  w.open('MY_SITE?' + s, '_blank')
+ } else {
+  w.open('MY_SITE')
+ }
+})();
